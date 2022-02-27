@@ -1,0 +1,56 @@
+﻿@model GizaPower.Data.SubInvoice
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>SubInvoice</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row" id="tb">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="ProductId" class="control-label">Product</label>
+                        <select asp-for="ProductId" class="form-control" asp-items="ViewBag.ProductId"></select>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label asp-for="Quantiy" class="control-label"></label>
+                        <input asp-for="Quantiy" class="form-control" />
+                        <span asp-validation-for="Quantiy" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            @*<button onclick="addRow()" type="button" class="btn btn-primary" style="margin-bottom: 10px;">Add new product info</button>*@
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-info">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+    var counter = 0;
+    function addRow() {
+        var table = document.getElementById("tb");
+        var node = document.createElement("div");
+        node.innerHTML = '<div class="col-md-6"><div class="form-group"><label asp-for="ProductId" class="control-label">Product</label><select asp-for="ProductId" class="form-control" asp-items="ViewBag.ProductId"></select></div></div><div class="col-md-6"><div class="form-group"><label asp-for="Quantiy" class="control-label"></label><input asp-for="Quantiy" class="form-control" /><span asp-validation-for="Quantiy" class="text-danger"></span></div></div>';
+        table.appendChild(node)
+        counter++;
+    }
+</script>
+}

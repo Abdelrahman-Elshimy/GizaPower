@@ -1,0 +1,61 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using GizaPower.Constants
+@model IEnumerable<GizaPower.Data.Product>
+
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.Products.Create)).Result.Succeeded)
+{
+<h1 style="text-transform: uppercase;background-color: #eeeeee; padding: 10px;">Product Management</h1>}
+
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.Products.Create)).Result.Succeeded)
+{
+    <a asp-controller="Product" asp-action="Create" class="btn btn-success">Create new product</a>
+}
+<br /> <br />
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.Products.View)).Result.Succeeded)
+{
+    <section class="products">
+        <div class="row">
+            @foreach (var product in Model)
+            {
+                <div class="col-md-6" style="margin-bottom: 20px;">
+                    <div class="card" style="width: 100%;">
+                        <div class="card-body">
+                            <h5 class="card-title">@product.Name</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Quantity: @product.Quantiy</h6>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Units: @product.Units</h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Value: @product.Value</h6>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>product Code: @product.Product_Code</h6>
+                                </div>
+                            </div>
+                            <h6>Created By: @product.User.UserName</h6>
+                            <br />
+                            <div class="row">
+                                <div class="col">
+                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Products.Edit)).Result.Succeeded)
+                                    {
+                                        <a asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning">Modify</a>}
+                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Products.Delete)).Result.Succeeded)
+                                    {
+                                        <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger">Delete</a>}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+}
+
